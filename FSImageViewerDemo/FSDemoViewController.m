@@ -60,12 +60,8 @@
     _imageViewController.delegate = self;
     _imageViewController.doneBarItemName = @"Fertig";
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:_imageViewController];
-        [self.navigationController presentViewController:navigationController animated:YES completion:nil];
-    } else {
-        [self.navigationController pushViewController:_imageViewController animated:YES];
-    }
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:_imageViewController];
+    [self.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark - <FSImageViewerViewControllerDelegate>
