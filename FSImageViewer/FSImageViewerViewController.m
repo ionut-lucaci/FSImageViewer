@@ -24,6 +24,7 @@
 
 #import "FSImageViewerViewController.h"
 #import "FSImageTitleView.h"
+#import <FLKAutoLayout/UIView+FLKAutoLayout.h>
 
 @interface FSImageViewerViewController ()
 
@@ -34,9 +35,13 @@
     NSInteger currentPageIndex;
     BOOL rotating;
     BOOL barsHidden;
+    BOOL shouldBarHide;
     BOOL statusBarHidden;
     UIBarButtonItem *shareButton;
+    UIButton *closeButton;
 }
+
+#pragma mark - View Life Cycle
 
 - (instancetype)initWithImageSource:(id <FSImageSource>)aImageSource {
     return [self initWithImageSource:aImageSource imageIndex:0];
@@ -59,6 +64,7 @@
         _imageSource = aImageSource;
         pageIndex = imageIndex;
         currentPageIndex = imageIndex;
+        shouldBarHide = NO;
         
         self.sharingDisabled = NO;
         self.showNumberOfItemsInTitle = YES;
@@ -125,20 +131,60 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-    shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share:)];
-    shareButton.enabled = NO;
-    if (self.presentingViewController && (self.modalPresentationStyle == UIModalPresentationFullScreen)) {
-        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:[self localizedStringForKey:@"done" withDefault:@"Done"] style:UIBarButtonItemStyleDone target:self action:@selector(done:)];
-        self.navigationItem.rightBarButtonItem = doneButton;
-        if (!_sharingDisabled) {
-            self.navigationItem.leftBarButtonItem = shareButton;
-        }
+    
+    if ([_delegate respondsToSelector:@selector(shouldNavigationBarHideOnImageViewerViewController:)]) {
+        shouldBarHide = [_delegate shouldNavigationBarHideOnImageViewerViewController:self];
     }
-    else {
-        if (!_sharingDisabled) {
-            self.navigationItem.rightBarButtonItem = shareButton;
+    
+    [self.navigationController setNavigationBarHidden:shouldBarHide animated:animated];
+    if (shouldBarHide) {
+        
+        if (self.presentingViewController && (self.modalPresentationStyle == UIModalPresentationFullScreen)) {
+            
+            if (!closeButton) {
+                
+                closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                UIImage *image = [self.class bundleImageWithName:@"close_photo_btn"];
+                [closeButton setImage:image forState:UIControlStateNormal];
+                
+                [closeButton addTarget:self
+                                action:@selector(done:)
+                      forControlEvents:UIControlEventTouchUpInside];
+                
+                [self.view addSubview:closeButton];
+                
+                [closeButton alignTopEdgeWithView:self.view predicate:@"16"];
+                [closeButton alignTrailingEdgeWithView:self.view predicate:@"-8"];
+                [closeButton constrainWidth:@"44" height:@"44"];
+            }
+            
+            [self.view layoutIfNeeded];
         }
+        
+        
+    } else {
+    
+        shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                    target:self
+                                                                    action:@selector(share:)];
+        shareButton.enabled = NO;
+        if (self.presentingViewController && (self.modalPresentationStyle == UIModalPresentationFullScreen)) {
+            
+            UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:self.doneBarItemName
+                                                                           style:UIBarButtonItemStyleDone
+                                                                          target:self
+                                                                          action:@selector(done:)];
+            self.navigationItem.rightBarButtonItem = doneButton;
+            if (!_sharingDisabled) {
+                self.navigationItem.leftBarButtonItem = shareButton;
+            }
+        }
+        else {
+            if (!_sharingDisabled) {
+                self.navigationItem.rightBarButtonItem = shareButton;
+            }
+        }
+        
     }
 
     [self setupScrollViewContentSize];
@@ -224,6 +270,17 @@
     return pageIndex;
 }
 
+
+#pragma mark - Lazy Loading
+
+- (NSString *)doneBarItemName {
+    if (!_doneBarItemName || !_doneBarItemName.length) {
+        _doneBarItemName = @"Done";
+    }
+    
+    return _doneBarItemName;
+}
+
 #pragma mark - Bar/Caption Methods
 
 - (void)setStatusBarHidden:(BOOL)hidden {
@@ -243,7 +300,9 @@
     }
 
     [self setStatusBarHidden:hidden];
-    [self.navigationController setNavigationBarHidden:hidden animated:animated];
+    if (!shouldBarHide) {
+        [self.navigationController setNavigationBarHidden:hidden animated:animated];
+    }
 
     [UIView animateWithDuration:0.3 animations:^{
         UIColor *backgroundColor = hidden ? _backgroundColorHidden : _backgroundColorVisible;
@@ -489,6 +548,7 @@
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
     NSInteger index = [self centerImageIndex];
     if (index >= [_imageSource numberOfImages] || index < 0) {
         return;
@@ -541,6 +601,24 @@
         }
     defaultString = [bundle localizedStringForKey:key value:defaultString table:nil];
     return [[NSBundle bundleForClass:[self class]] localizedStringForKey:key value:defaultString table:nil];
+}
+
++ (nullable UIImage *)bundleImageWithName:(NSString *)name {
+    
+    static NSBundle *bundle = nil;
+    if (bundle == nil)
+    {
+        NSString *bundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"FSImageViewer" ofType:@"bundle"];
+        bundle = [NSBundle bundleWithPath:bundlePath] ?: [NSBundle bundleForClass:[self class]];
+        [bundle load];
+    }
+    
+    UIImage *image = [UIImage imageNamed:name
+                                inBundle:bundle
+           compatibleWithTraitCollection:[UIScreen mainScreen].traitCollection];
+    
+    return image;
+    
 }
 
 @end

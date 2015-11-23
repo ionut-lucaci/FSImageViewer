@@ -41,7 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)imageViewerViewController:(FSImageViewerViewController *)imageViewerViewController willDismissViewControllerAnimated:(BOOL)animated;
 - (void)imageViewerViewController:(FSImageViewerViewController *)imageViewerViewController didDismissViewControllerAnimated:(BOOL)animated;
 
+- (BOOL)shouldNavigationBarHideOnImageViewerViewController:(FSImageViewerViewController *)imageViewerViewController;
+
 @end
+
 
 /// FSImageViewerViewController is an UIViewController which can present images.
 @interface FSImageViewerViewController : UIViewController <UIScrollViewDelegate>
@@ -58,6 +61,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Title
 @property(strong, nonatomic, nullable) UIView<FSTitleView>* titleView;
+
+/// Done Bar Item
+@property(strong, nonatomic, nullable) NSString *doneBarItemName;
 
 /// Optional Delegate
 @property(weak, nonatomic, nullable) id<FSImageViewerViewControllerDelegate> delegate;

@@ -58,17 +58,24 @@
     self.imageViewController = [[FSImageViewerViewController alloc] initWithImageSource:photoSource];
     
     _imageViewController.delegate = self;
+    _imageViewController.doneBarItemName = @"Fertig";
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:_imageViewController];
         [self.navigationController presentViewController:navigationController animated:YES completion:nil];
-    }
-    else {
+    } else {
         [self.navigationController pushViewController:_imageViewController animated:YES];
     }
 }
 
+#pragma mark - <FSImageViewerViewControllerDelegate>
+
 - (void)imageViewerViewController:(FSImageViewerViewController *)imageViewerViewController didMoveToImageAtIndex:(NSInteger)index {
     NSLog(@"FSImageViewerViewController: %@ didMoveToImageAtIndex: %li",imageViewerViewController, (long)index);
 }
+
+- (BOOL)shouldNavigationBarHideOnImageViewerViewController:(FSImageViewerViewController *)imageViewerViewController {
+    return YES;
+}
+
 @end

@@ -6,6 +6,7 @@ inhibit_all_warnings!
 pod 'AFNetworking', '~> 2.5'
 pod 'EGOCache', '~> 2.1'
 pod 'UAProgressView', '~> 0.1'
+pod 'FLKAutoLayout', '~> 0.2'
 
 target :FSImageViewerDemo, :exclusive => true do
     link_with ['FSImageViewer']
