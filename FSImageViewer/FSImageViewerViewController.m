@@ -24,7 +24,7 @@
 
 #import "FSImageViewerViewController.h"
 #import "FSImageTitleView.h"
-#import <FLKAutoLayout/UIView+FLKAutoLayout.h>
+@import FLKAutoLayout;
 
 @interface FSImageViewerViewController ()
 
