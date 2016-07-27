@@ -24,7 +24,7 @@
 
 #import "FSImageViewerViewController.h"
 #import "FSImageTitleView.h"
-@import FLKAutoLayout;
+
 
 @interface FSImageViewerViewController ()
 
@@ -153,10 +153,6 @@
                       forControlEvents:UIControlEventTouchUpInside];
                 
                 [self.view addSubview:closeButton];
-                
-                [closeButton alignTopEdgeWithView:self.view predicate:@"16"];
-                [closeButton alignTrailingEdgeWithView:self.view predicate:@"-8"];
-                [closeButton constrainWidth:@"44" height:@"44"];
             }
             
             [self.view layoutIfNeeded];
@@ -190,6 +186,17 @@
     
     [self setupScrollViewContentSize];
     [self moveToImageAtIndex:pageIndex animated:NO];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    static const CGFloat buttonSize = 44.0f;
+    static const CGFloat topPadding = 16.0f;
+    static const CGFloat rightPadding = 8.0f;
+    
+    closeButton.frame = CGRectMake(self.view.frame.size.width - buttonSize - rightPadding,
+                                   topPadding, buttonSize, buttonSize);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
