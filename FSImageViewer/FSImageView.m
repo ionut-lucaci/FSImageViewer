@@ -112,68 +112,28 @@
     if ([aImage isEqual:_image]) {
         return;
     }
-    if (_image != nil) {
-        [[FSImageLoader sharedInstance] cancelRequestForUrl:_image.URL];
-    }
 
     _image = aImage;
 
     if (_image.image) {
         _imageView.image = _image.image;
-
     }
     else {
 
-        if ([_image.URL isFileURL]) {
-
-            NSError *error = nil;
-            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[_image.URL path] error:&error];
-            NSInteger fileSize = [[attributes objectForKey:NSFileSize] integerValue];
-
-            if (fileSize >= MB_FILE_SIZE) {
-                _progressView.hidden = NO;
-                [_progressView setProgress:0.5 animated:YES];
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-
-                    UIImage *image = nil;
-                    NSData *data = [NSData dataWithContentsOfURL:self.image.URL];
-                    if (!data) {
-                        [self handleFailedImage];
-                    } else {
-                        image = [UIImage imageWithData:data];
-                    }
-
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        _progressView.hidden = YES;
-                        if (image != nil) {
-                            [self setupImageViewWithImage:image];
-                        }
-
-                    });
-                });
-
+        _progressView.hidden = NO;
+        __weak FSImageView *weakSelf = self;
+        [[FSImageLoader sharedInstance] loadImageForURL:_image.URL progress:^(float progress) {
+            [weakSelf.progressView setProgress:progress animated:YES];
+        }image:^(UIImage *image, NSError *error) {
+            __strong FSImageView *strongSelf = weakSelf;
+            if (!error) {
+                strongSelf.image.image = image;
+                [strongSelf setupImageViewWithImage:image];
             }
             else {
-                self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.image.URL]];
+                [strongSelf handleFailedImage];
             }
-
-        }
-        else {
-            _progressView.hidden = NO;
-            __weak FSImageView *weakSelf = self;
-            [[FSImageLoader sharedInstance] loadImageForURL:_image.URL progress:^(float progress) {
-                [weakSelf.progressView setProgress:progress animated:YES];
-            }image:^(UIImage *image, NSError *error) {
-                __strong FSImageView *strongSelf = weakSelf;
-                if (!error) {
-                    strongSelf.image.image = image;
-                    [strongSelf setupImageViewWithImage:image];
-                }
-                else {
-                    [strongSelf handleFailedImage];
-                }
-            }];
-        }
+        }];
 
     }
 

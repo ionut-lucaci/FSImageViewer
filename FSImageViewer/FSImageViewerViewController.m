@@ -75,7 +75,6 @@
 
 - (void)dealloc {
     _scrollView.delegate = nil;
-    [[FSImageLoader sharedInstance] cancelAllRequests];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

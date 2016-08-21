@@ -18,14 +18,7 @@ inhibit_all_warnings!
 #end
 
 
-pod 'AFNetworking', '~> 2.2'
+pod 'AFNetworking'
 pod 'EGOCache', '~> 2.0'
 pod 'UAProgressView', '~> 0.1'
-pod 'FLKAutoLayout', '~> 0.2'
 
-target :FSImageViewerTests, :exclusive => true do
-    pod 'OCMock', '~> 2.2.4'
-    pod 'FBSnapshotTestCase', '~> 1.1'
-    pod 'Specta', '~> 0.2.1'
-    pod 'EXPMatchers+FBSnapshotTest', '~> 1.1.0'
-end

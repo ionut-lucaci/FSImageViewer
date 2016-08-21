@@ -20,7 +20,6 @@
 		FD89E2B017CB99F000A41D91 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FD89E2AE17CB99F000A41D91 /* InfoPlist.strings */; };
 		FD89E2B217CB99F000A41D91 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD89E2B117CB99F000A41D91 /* main.m */; };
 		FD89E2B617CB99F000A41D91 /* FSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD89E2B517CB99F000A41D91 /* FSAppDelegate.m */; };
-		FD89E2CA17CB9A0700A41D91 /* FSImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = FD89E2C217CB9A0700A41D91 /* FSImageLoader.m */; };
 		FD89E2CB17CB9A0700A41D91 /* FSImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD89E2C417CB9A0700A41D91 /* FSImageScrollView.m */; };
 		FD89E2CC17CB9A0700A41D91 /* FSImageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD89E2C717CB9A0700A41D91 /* FSImageTitleView.m */; };
 		FD89E2CD17CB9A0700A41D91 /* FSImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD89E2C917CB9A0700A41D91 /* FSImageView.m */; };
@@ -113,8 +112,6 @@
 		FD89E2B417CB99F000A41D91 /* FSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSAppDelegate.h; sourceTree = "<group>"; };
 		FD89E2B517CB99F000A41D91 /* FSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSAppDelegate.m; sourceTree = "<group>"; };
 		FD89E2C017CB9A0700A41D91 /* FSImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSImage.h; sourceTree = "<group>"; };
-		FD89E2C117CB9A0700A41D91 /* FSImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSImageLoader.h; sourceTree = "<group>"; };
-		FD89E2C217CB9A0700A41D91 /* FSImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSImageLoader.m; sourceTree = "<group>"; };
 		FD89E2C317CB9A0700A41D91 /* FSImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSImageScrollView.h; sourceTree = "<group>"; };
 		FD89E2C417CB9A0700A41D91 /* FSImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSImageScrollView.m; sourceTree = "<group>"; };
 		FD89E2C517CB9A0700A41D91 /* FSImageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSImageSource.h; sourceTree = "<group>"; };
@@ -242,8 +239,6 @@
 				FD0FEFB917D77F1C00470082 /* FSBasicImageSource.h */,
 				FD0FEFBA17D77F1C00470082 /* FSBasicImageSource.m */,
 				FD89E2C017CB9A0700A41D91 /* FSImage.h */,
-				FD89E2C117CB9A0700A41D91 /* FSImageLoader.h */,
-				FD89E2C217CB9A0700A41D91 /* FSImageLoader.m */,
 				FD89E2C317CB9A0700A41D91 /* FSImageScrollView.h */,
 				FD89E2C417CB9A0700A41D91 /* FSImageScrollView.m */,
 				FD89E2C517CB9A0700A41D91 /* FSImageSource.h */,
@@ -568,7 +563,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD89E2CA17CB9A0700A41D91 /* FSImageLoader.m in Sources */,
 				FD89E2CB17CB9A0700A41D91 /* FSImageScrollView.m in Sources */,
 				FD89E2CC17CB9A0700A41D91 /* FSImageTitleView.m in Sources */,
 				FD89E2CD17CB9A0700A41D91 /* FSImageView.m in Sources */,

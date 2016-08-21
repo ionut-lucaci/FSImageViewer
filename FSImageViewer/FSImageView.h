@@ -25,7 +25,6 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "FSImageSource.h"
-#import "FSImageLoader.h"
 
 @class FSImageScrollView, FSImageTitleView;
 
