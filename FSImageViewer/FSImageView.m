@@ -90,7 +90,7 @@
 
 - (void)dealloc {
     if (_image) {
-        [[FSImageLoader sharedInstance] cancelRequestForUrl:self.image.URL];
+//        [[FSImageLoader sharedInstance] cancelRequestForUrl:self.image.URL];
     }
 }
 
@@ -122,18 +122,18 @@
 
         _progressView.hidden = NO;
         __weak FSImageView *weakSelf = self;
-        [[FSImageLoader sharedInstance] loadImageForURL:_image.URL progress:^(float progress) {
-            [weakSelf.progressView setProgress:progress animated:YES];
-        }image:^(UIImage *image, NSError *error) {
-            __strong FSImageView *strongSelf = weakSelf;
-            if (!error) {
-                strongSelf.image.image = image;
-                [strongSelf setupImageViewWithImage:image];
-            }
-            else {
-                [strongSelf handleFailedImage];
-            }
-        }];
+//        [[FSImageLoader sharedInstance] loadImageForURL:_image.URL progress:^(float progress) {
+//            [weakSelf.progressView setProgress:progress animated:YES];
+//        }image:^(UIImage *image, NSError *error) {
+//            __strong FSImageView *strongSelf = weakSelf;
+//            if (!error) {
+//                strongSelf.image.image = image;
+//                [strongSelf setupImageViewWithImage:image];
+//            }
+//            else {
+//                [strongSelf handleFailedImage];
+//            }
+//        }];
 
     }
 
